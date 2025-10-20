@@ -1,42 +1,374 @@
-#root {
-  max-width: 1280px;
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;   
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+}
+
+/*header*/
+.site-header {
+  background: #4CAF50;
+  color: white;
+  padding: 15px 0;
+}
+.header-inner {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.site-title { font-size: 24px; font-weight: bold; }
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.main-nav a:hover { text-decoration: underline; }
+
+/*Fondo index*/
+.hero {
+  height: 70vh;
+  background: url("https://img.freepik.com/fotos-premium/fondo-fruta_501761-2579.jpg?w=2000") no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: white;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.muestra {
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: black;
+  text-align: center;
+  margin-top: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  padding: 20px;
 }
+.hero-content h1 { font-size: 48px; margin-bottom: 15px; }
+.hero-content p { font-size: 20px; margin-bottom: 25px; }
+.btn-primary {
+  background: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+.btn-primary:hover { background: #45a049; }
 
+/*index tarjetas prod*/
+.productos {
+  max-width: 1100px;
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px;
+}
 .card {
-  padding: 2em;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.3s;
+}
+.card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.card h3 { margin: 10px 0; font-size: 20px; color: #333; }
+.card p { font-size: 15px; margin: 5px 0; color: #666; }
+.price { font-weight: bold; color: #4CAF50; }
+
+/*Index Impacto Amb*/
+.impacto {
+  background: #f0f9f0;
+  border-radius: 12px;
+  padding: 25px;
+  margin: 40px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.impacto h2 { margin-bottom: 15px; color: #2d6a4f; }
+.impacto ul { margin-top: 10px; padding-left: 20px; }
+.impacto li { margin-bottom: 8px; font-size: 16px; }
+
+
+/*Catalogo*/
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
-.read-the-docs {
-  color: #888;
+.filters {
+  max-width: 1100px;
+  margin: 20px auto 6px;
+  padding: 0 20px;
+  display:flex;
+  gap: 8px;
+  flex-wrap:wrap;
+}
+.filter-btn {
+  background: #eee;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.filter-btn.active { background: #4CAF50; color: white; }
+
+/*Registro*/
+.registro-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 30px 25px;
+  max-width: 600px;
+  margin: 40px auto;
+}
+.registro-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+form .row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+label { font-weight: 600; margin-bottom: 5px; }
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+  font-size: 15px;
+}
+input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 5px rgba(76,175,80,0.4);
+}
+.row-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+}
+button[type="reset"] {
+  background: #e0e0e0;
+  color: #333;
+}
+button[type="reset"]:hover { background: #d5d5d5; }
+button[type="submit"] {
+  background: #4CAF50;
+  color: white;
+}
+button[type="submit"]:hover { background: #45a049; }
+#errores {
+  margin-top: 15px;
+  color: red;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/*Carrito*/
+.carrito-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+  max-width: 900px;
+  margin: 40px auto;
+}
+.carrito-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+th, td {
+  padding: 12px;
+  text-align: center;
+}
+thead { background: #4CAF50; color: white; }
+tbody tr { border-bottom: 1px solid #ddd; }
+tbody tr:hover { background: #f1f1f1; }
+.total {
+  text-align: right;
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.btn-eliminar {
+  background: #e74c3c;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-eliminar:hover { background: #c0392b; }
+.resumen-carrito {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.resumen-carrito p { margin: 6px 0; }
+.total-final { font-size: 20px; color: #4CAF50; }
+
+.add-to-cart {
+  margin-top: 10px;
+  display: inline-block;
+  background: #07CCA1;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+.add-to-cart:hover { opacity: 0.9; }
+
+/*Footer*/
+.site-footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: auto;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 20px;
+  text-align: left;
+}
+.footer-col { flex: 1 1 220px; min-width: 200px; }
+.footer-col h4 { margin-bottom: 8px; color: #fff; }
+.footer-social a {
+  display: inline-block;
+  margin: 4px;
+  padding: 6px 10px;
+  background: #444;
+  border-radius: 6px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+}
+.footer-map iframe {
+  width: 240px;
+  height: 140px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media(max-width:768px) {
+  .hero { flex-direction: column; text-align: center; }
+  .hero-content h1 { font-size: 32px; }
+  .productos { flex-direction: column; align-items: center; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-map iframe { width: 95%; height: 180px; }
+}
+
+.error {
+  border: 1px solid red;
+  background: #ffefef;
+}
+
+/* ===== FILTROS EN CATÁLOGO ===== */
+.filtros {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.filtros button {
+  background: #4CAF50;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filtros button:hover {
+  background: #45a049;
 }
