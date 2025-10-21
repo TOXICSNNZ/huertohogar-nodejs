@@ -48,7 +48,6 @@ export function AuthProvider({ children }) {
     setUser(data);
   }
 
-  // === Pedidos ===
   function addOrder(order) {
     const list = [...orders, order];
     setOrders(list);

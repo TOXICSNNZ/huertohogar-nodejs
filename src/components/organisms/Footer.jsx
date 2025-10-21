@@ -31,7 +31,7 @@ export default function Footer() {
           ></iframe>
         </div>
       </div>
-      <p>© HuertoHogar - Proyecto educativo</p>
+      <p>© HuertoHogar</p>
     </footer>
   );
 }

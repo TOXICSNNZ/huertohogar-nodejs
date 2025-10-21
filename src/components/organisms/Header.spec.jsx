@@ -10,7 +10,7 @@ jest.mock("react-router-dom", () => ({
   Link: ({ to, children, ...rest }) => <a href={to} {...rest}>{children}</a>
 }));
 
-describe("Header — navegación básica", () => {
+describe("Header", () => {
   it("muestra enlaces principales", () => {
     render(<Header />);
     expect(screen.getByText("Inicio")).toBeInTheDocument();

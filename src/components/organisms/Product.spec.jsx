@@ -12,7 +12,7 @@ describe("Product — añade al carrito", () => {
   it("guarda el producto con qty=1 en localStorage", () => {
     const mockProduct = {
       code: "FR001",
-      image: "/img/a.jpg",
+      image: "https://santaisabel.vtexassets.com/arquivos/ids/174684/Manzana-Fuji-granel.jpg?v=637574808673230000",
       name: "Manzanas Fuji",
       description: "Ricas y crujientes",
       price: 1200,
