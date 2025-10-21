@@ -4,7 +4,6 @@ import React from "react";
 export default function Home() {
   return (
     <main>
-      {/* HERO */}
       <section className="hero">
         <div className="hero-content">
           <h1>🌱 Directo del campo a tu casa</h1>
@@ -15,7 +14,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Productos destacados */}
       <section className="productos">
         <div className="card">
           <img
@@ -45,7 +43,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Impacto Ambiental */}
       <section className="impacto container">
         <h2>🌍 Impacto Ambiental Positivo</h2>
         <p>

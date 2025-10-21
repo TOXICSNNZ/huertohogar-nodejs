@@ -40,25 +40,3 @@
 .read-the-docs {
   color: #888;
 }
-
-/* ===== FILTROS EN CATÁLOGO ===== */
-.filtros {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 25px;
-}
-
-.filtros button {
-  background: #4CAF50;
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.filtros button:hover {
-  background: #45a049;
-}

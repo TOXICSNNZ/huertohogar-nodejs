@@ -6,13 +6,19 @@ import Checkout from "./components/pages/Checkout";
 import Success from "./components/pages/Success";
 import Fail from "./components/pages/Fail";
 
-// Organisms
+
 import Header from "./components/organisms/Header";
 import Footer from "./components/organisms/Footer";
 import Cart from "./components/pages/Cart";
+import { AuthProvider } from "./context/AuthContext";
+import Login from "./components/pages/Login";
+import Registro from "./components/pages/Registro";
+import Perfil from "./components/pages/Perfil";
+import Blog from "./components/pages/Blog";
 
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Header/>
       <Routes>
@@ -22,9 +28,14 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/success" element={<Success />} />
         <Route path="/fail" element={<Fail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/blog" element={<Blog />} />
       </Routes>
       <Footer/>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

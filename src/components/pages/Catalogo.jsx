@@ -5,18 +5,22 @@ import Product from "../organisms/Product";
 export default function Catalogo() {
   const [filter, setFilter] = useState("Todos");
 
-  const categories = ["Todos", "Frutas Frescas", "Verduras Orgánicas", "Productos Orgánicos", "Productos Lácteos"];
+  const categories = [
+    "Todos",
+    "Frutas Frescas",
+    "Verduras Orgánicas",
+    "Productos Orgánicos",
+    "Productos Lácteos",
+  ];
 
-  // Filtramos productos según la categoría seleccionada
   const filteredProducts =
     filter === "Todos" ? products : products.filter((p) => p.category === filter);
 
   return (
-    <div className="container my-5">
+    <main className="container my-5">
       <h2 className="text-center mb-4">Catálogo de Productos</h2>
 
-      {/* Botones de filtro */}
-      <div className="text-center mb-4">
+      <div className="text-center mb-4 filtros">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -28,20 +32,15 @@ export default function Catalogo() {
         ))}
       </div>
 
-      {/* Mostramos los productos filtrados */}
-      <div className="row g-4">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((prod) => (
-            <div key={prod.code} className="col-md-4 d-flex justify-content-center">
+      <section className="container my-5">
+        <div className="row g-4">
+          {filteredProducts.map((prod) => (
+            <div key={prod.code} className="col-sm-6 col-md-4 col-lg-3">
               <Product {...prod} />
             </div>
-          ))
-        ) : (
-          <p className="text-center">No hay productos disponibles en esta categoría.</p>
-        )}
-      </div>
-    </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
-
-

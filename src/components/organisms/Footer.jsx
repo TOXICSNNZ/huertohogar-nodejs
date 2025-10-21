@@ -1,26 +1,22 @@
-// src/components/organisms/Footer.jsx
 import React from "react";
 
 export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
-        {/* Información de contacto */}
         <div className="footer-col">
           <h4>Contacto</h4>
           <p>Email: contacto@huertohogar.cl</p>
           <p>Tel: +56 9 1234 5678</p>
         </div>
 
-        {/* Redes sociales */}
         <div className="footer-col footer-social">
           <h4>Síguenos</h4>
-          <a href="#">YouTube</a>
-          <a href="#">Twitter</a>
-          <a href="#">Instagram</a>
+          <a href="https://www.youtube.com/@Huertohogar">YouTube</a>
+          <a href="https://www.x.com/@Huertohogar">Twitter</a>
+          <a href="https://www.instagram.com/Huertohogar/">Instagram</a>
         </div>
 
-        {/* Mapa */}
         <div className="footer-col footer-map">
           <h4>Encuéntranos</h4>
           <iframe
