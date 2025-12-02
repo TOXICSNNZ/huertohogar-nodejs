@@ -5,10 +5,19 @@ import { useAuth } from "../../context/AuthContext";
 export default function Registro() {
   const { register } = useAuth();
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
-    nombre: "", apellido: "", email: "", password: "",
-    calle: "", depto: "", region: "", comuna: "", instrucciones: ""
+    nombre: "",
+    apellido: "",
+    email: "",
+    password: "",
+    confirmar: "",
+    calle: "",
+    depto: "",
+    region: "",
+    comuna: "",
   });
+
   const [errores, setErrores] = useState([]);
 
   function onChange(e) {
@@ -17,69 +26,169 @@ export default function Registro() {
 
   function validar() {
     const msgs = [];
-    if (!form.nombre) msgs.push("Nombre es obligatorio.");
-    if (!form.apellido) msgs.push("Apellido es obligatorio.");
-    if (!form.email.includes("@")) msgs.push("Correo debe contener @.");
-    if (form.password.length < 6) msgs.push("La contraseña debe tener al menos 6 caracteres.");
-    if (!form.calle) msgs.push("Calle es obligatoria.");
-    if (!form.region) msgs.push("Región es obligatoria.");
-    if (!form.comuna) msgs.push("Comuna es obligatoria.");
+
+    if (!form.nombre.trim()) msgs.push("El nombre es obligatorio.");
+    if (!form.apellido.trim()) msgs.push("El apellido es obligatorio.");
+    if (!form.email.includes("@")) msgs.push("Debes ingresar un correo válido.");
+    if (!form.password || form.password.length < 6) {
+      msgs.push("La contraseña debe tener al menos 6 caracteres.");
+    }
+    if (form.password !== form.confirmar) {
+      msgs.push("Las contraseñas no coinciden.");
+    }
+    if (!form.calle.trim()) msgs.push("La calle es obligatoria.");
+    if (!form.region.trim()) msgs.push("La región es obligatoria.");
+    if (!form.comuna.trim()) msgs.push("La comuna es obligatoria.");
+
     return msgs;
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
-    const v = validar();
-    if (v.length > 0) { setErrores(v); return; }
-    register(form);
-    navigate("/checkout");
+    const msgs = validar();
+
+    if (msgs.length > 0) {
+      setErrores(msgs);
+      return;
+    }
+
+    try {
+      await register(form);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      setErrores([
+        err.response?.data?.error ||
+          "Error al registrarse. Intenta nuevamente.",
+      ]);
+    }
+  }
+
+  function onReset() {
+    setForm({
+      nombre: "",
+      apellido: "",
+      email: "",
+      password: "",
+      confirmar: "",
+      calle: "",
+      depto: "",
+      region: "",
+      comuna: "",
+    });
+    setErrores([]);
   }
 
   return (
     <div className="container my-5 registro-box">
-      <h2>Crear Cuenta</h2>
-      <form onSubmit={onSubmit} className="checkout-form">
-        <div className="row mb-3">
-          <div className="col-md-6"><label>Nombre*</label>
-            <input className="form-control" name="nombre" value={form.nombre} onChange={onChange} required />
-          </div>
-          <div className="col-md-6"><label>Apellido*</label>
-            <input className="form-control" name="apellido" value={form.apellido} onChange={onChange} required />
-          </div>
-        </div>
-        <div className="mb-3"><label>Correo*</label>
-          <input type="email" className="form-control" name="email" value={form.email} onChange={onChange} required />
-        </div>
-        <div className="mb-3"><label>Contraseña*</label>
-          <input type="password" className="form-control" name="password" value={form.password} onChange={onChange} required />
+      <h2>Crear cuenta</h2>
+
+      <form onSubmit={onSubmit} onReset={onReset}>
+        <div className="row">
+          <label htmlFor="nombre">Nombre *</label>
+          <input
+            id="nombre"
+            name="nombre"
+            value={form.nombre}
+            onChange={onChange}
+          />
         </div>
 
-        <h4 className="mt-4 mb-3">Dirección de entrega</h4>
-        <div className="mb-3"><label>Calle*</label>
-          <input className="form-control" name="calle" value={form.calle} onChange={onChange} required />
+        <div className="row">
+          <label htmlFor="apellido">Apellido *</label>
+          <input
+            id="apellido"
+            name="apellido"
+            value={form.apellido}
+            onChange={onChange}
+          />
         </div>
-        <div className="mb-3"><label>Departamento (opcional)</label>
-          <input className="form-control" name="depto" value={form.depto} onChange={onChange} />
+
+        <div className="row">
+          <label htmlFor="email">Correo electrónico *</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={onChange}
+          />
         </div>
-        <div className="row mb-3">
-          <div className="col-md-6"><label>Región*</label>
-            <input className="form-control" name="region" value={form.region} onChange={onChange} required />
-          </div>
-          <div className="col-md-6"><label>Comuna*</label>
-            <input className="form-control" name="comuna" value={form.comuna} onChange={onChange} required />
-          </div>
+
+        <div className="row">
+          <label htmlFor="password">Contraseña *</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={onChange}
+          />
         </div>
-        <div className="mb-3"><label>Instrucciones (opcional)</label>
-          <textarea className="form-control" name="instrucciones" value={form.instrucciones} onChange={onChange} />
+
+        <div className="row">
+          <label htmlFor="confirmar">Confirmar contraseña *</label>
+          <input
+            id="confirmar"
+            name="confirmar"
+            type="password"
+            value={form.confirmar}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className="row">
+          <label htmlFor="calle">Calle y número *</label>
+          <input
+            id="calle"
+            name="calle"
+            value={form.calle}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className="row">
+          <label htmlFor="depto">Departamento (opcional)</label>
+          <input
+            id="depto"
+            name="depto"
+            value={form.depto}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className="row">
+          <label htmlFor="region">Región *</label>
+          <input
+            id="region"
+            name="region"
+            value={form.region}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className="row">
+          <label htmlFor="comuna">Comuna *</label>
+          <input
+            id="comuna"
+            name="comuna"
+            value={form.comuna}
+            onChange={onChange}
+          />
+        </div>
+
+        <div className="row-buttons">
+          <button type="reset">Limpiar</button>
+          <button type="submit">Crear cuenta</button>
         </div>
 
         {errores.length > 0 && (
-          <div className="alert alert-danger">
-            {errores.map((m, i) => <div key={i}>{m}</div>)}
+          <div className="alert alert-danger mt-3">
+            {errores.map((m, i) => (
+              <div key={i}>{m}</div>
+            ))}
           </div>
         )}
-
-        <button className="btn btn-success w-100">Crear cuenta</button>
       </form>
     </div>
   );

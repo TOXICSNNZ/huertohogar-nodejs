@@ -1,94 +1,129 @@
-import React, { useMemo, useState } from "react";
-import posts from "../../assets/blogData";
+import React, { useEffect, useState } from "react";
+import BlogService from "../../services/BlogService";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Blog() {
-  const [filtro, setFiltro] = useState("Todos");
-  const [q, setQ] = useState("");
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const { isAdmin } = useAuth() || {};
 
-  const tags = ["Todos", "Alimentación", "Sostenibilidad"];
-
-  const filtrados = useMemo(() => {
-    let list = [...posts];
-
-    if (filtro !== "Todos") {
-      list = list.filter((p) => p.tag === filtro);
+  async function cargarPosts() {
+    try {
+      setLoading(true);
+      setError("");
+      const response = await BlogService.getAllPosts();
+      setPosts(response.data || []);
+    } catch (err) {
+      console.error("Error cargando blog:", err);
+      setError("No se pudieron cargar las noticias del blog.");
+    } finally {
+      setLoading(false);
     }
+  }
 
-    if (q.trim()) {
-      const term = q.toLowerCase();
-      list = list.filter((p) => p.title.toLowerCase().includes(term));
+  useEffect(() => {
+    cargarPosts();
+  }, []);
+
+  async function handleDelete(id) {
+    if (!window.confirm("¿Seguro que deseas eliminar esta entrada?")) return;
+    try {
+      await BlogService.deletePost(id);
+      alert("Entrada eliminada");
+      cargarPosts();
+    } catch (err) {
+      console.error(err);
+      alert("No se pudo eliminar la entrada.");
     }
+  }
 
-    list.sort((a, b) => (a.date < b.date ? 1 : -1));
+  function handleEdit(post) {
+    alert(
+      `Aca iria el menu de editar "${post.title}" (solo admin).`
+    );
+  }
 
-    return list;
-  }, [filtro, q]);
+  function handleCreate() {
+    alert("Aca iria el menu crear (solo admin).");
+  }
 
   return (
-    <main className="container my-5">
-      <header className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-        <h2 className="m-0">Blog: Alimentación y Sostenibilidad</h2>
+    <div className="container my-5">
+      <h2 className="mb-4 text-center">
+        Blog: alimentación saludable y sostenibilidad
+      </h2>
 
-        <div className="d-flex gap-2">
-          {tags.map((t) => (
-            <button
-              key={t}
-              className={`btn ${filtro === t ? "btn-success" : "btn-outline-success"}`}
-              onClick={() => setFiltro(t)}
-            >
-              {t}
-            </button>
-          ))}
+      {isAdmin && (
+        <div className="text-end mb-3">
+          <button className="btn btn-primary" onClick={handleCreate}>
+            + Nueva entrada
+          </button>
         </div>
-      </header>
+      )}
 
-      <div className="mb-4">
-        <input
-          className="form-control"
-          placeholder="Buscar por título (ej: desayunos, local, snacks)"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
-      </div>
+      {loading && <p>Cargando noticias...</p>}
+      {error && <p className="text-danger">{error}</p>}
+      {!loading && !error && posts.length === 0 && (
+        <p>No hay artículos publicados por el momento.</p>
+      )}
 
-      <section className="row g-4">
-        {filtrados.map((post) => (
-          <article key={post.id} className="col-sm-6 col-lg-4">
-            <div className="card blog-card h-100">
-              {post.image && (
-                <img src={post.image} alt={post.title} className="card-img-top blog-card-img" />
-              )}
-              <div className="card-body d-flex flex-column">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <span className="badge bg-success">{post.tag}</span>
-                  <small className="text-muted">{new Date(post.date).toLocaleDateString()}</small>
-                </div>
+      <div className="row g-4">
+        {!loading &&
+          !error &&
+          posts.map((post) => {
+            const resumen =
+              post.summary && post.summary.length > 140
+                ? post.summary.slice(0, 140) + "..."
+                : post.summary || "";
 
-                <h5 className="card-title">{post.title}</h5>
-                <p className="card-text text-muted">{post.excerpt}</p>
+            return (
+              <div key={post.id} className="col-md-4 d-flex">
+                <div className="card flex-fill blog-card">
+                  {post.imageUrl && (
+                    <img
+                      src={post.imageUrl}
+                      alt={post.title}
+                      className="card-img-top blog-card-img"
+                    />
+                  )}
+                  <div className="card-body">
+                    <h5 className="card-title">{post.title}</h5>
+                    <h6 className="card-subtitle mb-2 text-muted">
+                      {post.category || "Consejos saludables"}
+                    </h6>
+                    <p className="card-text">{resumen}</p>
+                    {post.createdAt && (
+                      <small className="text-muted">
+                        Publicado el{" "}
+                        {new Date(post.createdAt).toLocaleDateString("es-CL")}
+                      </small>
+                    )}
 
-                {post.bullets?.length > 0 && (
-                  <ul className="small mb-3">
-                    {post.bullets.map((b, i) => (
-                      <li key={i}>{b}</li>
-                    ))}
-                  </ul>
-                )}
-
-                <div className="mt-auto">
-                  <button className="btn btn-outline-success w-100" disabled>
-                    Leer más
-                  </button>
+                    {isAdmin && (
+                      <div className="mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-warning me-2"
+                          onClick={() => handleEdit(post)}
+                        >
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(post.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
-        ))}
-
-        {filtrados.length === 0 && (
-          <p className="text-center text-muted">No se encontraron artículos con esos filtros.</p>
-        )}
-      </section>
-    </main>
+            );
+          })}
+      </div>
+    </div>
   );
 }

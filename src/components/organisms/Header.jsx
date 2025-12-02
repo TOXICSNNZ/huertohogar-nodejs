@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
-  const { user, logout } = useAuth();
-  const nombreCorto = user?.nombre ? user.nombre.split(" ")[0] : null;
+  const { user, isAuthenticated, logout, role } = useAuth();
+
+  const displayName = user?.nombre
+    ? user.nombre.split(" ")[0]
+    : null;
 
   return (
     <header className="site-header">
@@ -15,37 +18,34 @@ export default function Header() {
           </Link>
         </h1>
 
-        <nav className="main-nav" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <nav className="main-nav">
           <Link to="/">Inicio</Link>
           <Link to="/catalogo">Catálogo</Link>
-          <Link to="/cart">Carrito</Link>
           <Link to="/blog">Blog</Link>
-          <span style={{ marginLeft: 8 }}>|</span>
+          <Link to="/carrito">Carrito</Link>
 
-          {!user ? (
+          {!isAuthenticated && (
+            <Link to="/login">Registro / Login</Link>
+          )}
+
+          {isAuthenticated && (
             <>
-              <Link to="/registro">Registro</Link>
-              <Link to="/login">Login</Link>
-            </>
-          ) : (
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <Link to="/perfil" style={{ color: "#fff", fontWeight: 700 }}>
-                {nombreCorto}
+              <Link to="/perfil">
+                {displayName ? `Hola, ${displayName}` : "Mi perfil"}
               </Link>
               <button
+                type="button"
+                className="btn btn-sm btn-outline-light ms-2"
                 onClick={logout}
-                style={{
-                  background: "transparent",
-                  border: "1px solid #fff",
-                  color: "#fff",
-                  padding: "4px 8px",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                }}
               >
-                Salir
+                Cerrar sesión
               </button>
-            </div>
+              {role === "ADMIN" && (
+                <span className="badge bg-warning text-dark ms-2">
+                  ADMIN
+                </span>
+              )}
+            </>
           )}
         </nav>
       </div>
