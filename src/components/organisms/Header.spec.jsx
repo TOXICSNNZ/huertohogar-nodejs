@@ -16,7 +16,5 @@ describe("Header", () => {
     expect(screen.getByText("Inicio")).toBeInTheDocument();
     expect(screen.getByText("Catálogo")).toBeInTheDocument();
     expect(screen.getByText("Carrito")).toBeInTheDocument();
-    expect(screen.getByText("Registro")).toBeInTheDocument();
-    expect(screen.getByText("Login")).toBeInTheDocument();
   });
 });

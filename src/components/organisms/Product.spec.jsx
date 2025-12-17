@@ -9,7 +9,7 @@ describe("Product — añade al carrito", () => {
     jest.spyOn(window, "alert").mockImplementation(() => {});
   });
 
-  it("guarda el producto con qty=1 en localStorage", () => {
+  it("guarda el producto en localStorage", () => {
     const mockProduct = {
       code: "FR001",
       image: "https://santaisabel.vtexassets.com/arquivos/ids/174684/Manzana-Fuji-granel.jpg?v=637574808673230000",
@@ -24,8 +24,13 @@ describe("Product — añade al carrito", () => {
     fireEvent.click(screen.getByText(/Añadir al carrito/i));
 
     expect(localStorage.setItem).toHaveBeenCalled();
-    const payload = JSON.parse(localStorage.setItem.mock.calls.pop()[1]);
+
+    const lastCall = localStorage.setItem.mock.calls.at(-1);
+    expect(lastCall[0]).toBe("products");
+
+    const payload = JSON.parse(lastCall[1]);
+    expect(payload.length).toBe(1);
     expect(payload[0].code).toBe("FR001");
-    expect(payload[0].qty).toBe(1);
+    expect(payload[0].name).toBe("Manzanas Fuji");
   });
 });

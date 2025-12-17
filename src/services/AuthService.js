@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AUTH_URL = "http://98.92.68.135:9090/auth";
+const AUTH_URL = "http://localhost:9090/auth";
 
 export async function login(email, password) {
   const response = await axios.post(`${AUTH_URL}/login`, {

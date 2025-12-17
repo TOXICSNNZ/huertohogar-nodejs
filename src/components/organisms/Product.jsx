@@ -53,7 +53,7 @@ export default function Product(props) {
 
   function handleEdit() {
     if (!isAdmin || !showAdminActions) return;
-    alert(`Aca iiria menu de edicion "${name}" (solo admin).`);
+    if (props.onEdit) props.onEdit(props);
   }
 
   return (
